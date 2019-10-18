@@ -6,11 +6,6 @@ namespace LegacyCodeSample
     {
         public double CalculateDiscount(Customer customer)
         {
-            if (!customer.IsGoldMember && customer.Birthdate.Month == DateTime.UtcNow.Month && customer.Birthdate.Day == DateTime.UtcNow.Day)
-            {
-                return 40;
-            }
-
             if (customer.IsGoldMember)
             {
                 if (DateTime.UtcNow.Year - customer.Birthdate.Year > 40)
@@ -27,14 +22,19 @@ namespace LegacyCodeSample
                 {
                     return 15;
                 }
+            }
 
-                if (customer.Birthdate.Month == DateTime.UtcNow.Month && customer.Birthdate.Day == DateTime.UtcNow.Day)
-                {
-                    return 40;
-                }
+            if (IsBirthday(customer))
+            {
+                return 40;
             }
 
             return 0;
+        }
+
+        private bool IsBirthday(Customer customer)
+        {
+            return customer.Birthdate.Month == DateTime.UtcNow.Month && customer.Birthdate.Day == DateTime.UtcNow.Day;
         }
     }
 }
