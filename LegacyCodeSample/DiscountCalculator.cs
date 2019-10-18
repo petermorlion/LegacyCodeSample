@@ -15,19 +15,17 @@ namespace LegacyCodeSample
             {
                 if (DateTime.UtcNow.Year - customer.Birthdate.Year > 40)
                 {
+                    if (customer.IsEmployee())
+                    {
+                        return 20;
+                    }
+
                     return 30;
                 }
 
                 if (customer.IsEmployee())
                 {
-                    if (DateTime.UtcNow.Year - customer.Birthdate.Year > 40)
-                    {
-                        return 20;
-                    }
-                    else
-                    {
-                        return 15;
-                    }
+                    return 15;
                 }
 
                 if (customer.Birthdate.Month == DateTime.UtcNow.Month && customer.Birthdate.Day == DateTime.UtcNow.Day)

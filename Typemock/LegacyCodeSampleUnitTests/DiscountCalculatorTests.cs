@@ -48,6 +48,23 @@ namespace UnitTestsLegacyCodeSample
             Assert.AreEqual(40.0, result, 0.01);
         }
 
+        [TestMethod]
+        public void CalculateDiscount_ForGoldMemberEmployeeOlderThan40_Returns20()
+        {
+            // arrange
+            var discountCalculator = new DiscountCalculator();
+            var customer = new Customer();
+            customer.Birthdate = DateTime.UtcNow.AddYears(-50);
+            customer.IsGoldMember = true;
+            Isolate.WhenCalled(() => customer.IsEmployee()).WillReturn(true);
+
+            // act
+            var result = discountCalculator.CalculateDiscount(customer);
+
+            // assert
+            Assert.AreEqual(20.0, result, 0.01);
+        }
+
         #region Unit Tests for CalculateDiscount
 
         [TestMethod]
@@ -72,6 +89,7 @@ namespace UnitTestsLegacyCodeSample
             var discountCalculator = new DiscountCalculator();
             var customer = new Customer();
             customer.IsGoldMember = true;
+            Isolate.WhenCalled(() => customer.IsEmployee()).WillReturn(false);
              
             // act
             var result = discountCalculator.CalculateDiscount(customer);
