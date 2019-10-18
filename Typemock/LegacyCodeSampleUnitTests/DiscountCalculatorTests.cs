@@ -16,8 +16,40 @@ namespace UnitTestsLegacyCodeSample
     [TestClass()]
     public class DiscountCalculatorTests
     {
+        [TestMethod]
+        public void CalculateDiscount_OnBirthday_Returns40()
+        {
+            // arrange
+            var discountCalculator = new DiscountCalculator();
+            var customer = new Customer();
+            customer.Birthdate = DateTime.UtcNow;
+
+            // act
+            var result = discountCalculator.CalculateDiscount(customer);
+
+            // assert
+            Assert.AreEqual(40.0, result, 0.01);
+        }
+
+        [TestMethod]
+        public void CalculateDiscount_ForGoldMemberOnBirthday_Returns40()
+        {
+            // arrange
+            var discountCalculator = new DiscountCalculator();
+            var customer = new Customer();
+            customer.Birthdate = DateTime.UtcNow;
+            customer.IsGoldMember = true;
+            Isolate.WhenCalled(() => customer.IsEmployee()).WillReturn(false);
+
+            // act
+            var result = discountCalculator.CalculateDiscount(customer);
+
+            // assert
+            Assert.AreEqual(40.0, result, 0.01);
+        }
+
         #region Unit Tests for CalculateDiscount
-        
+
         [TestMethod]
         public void CalculateDiscount_Test_Returns00()
         {
